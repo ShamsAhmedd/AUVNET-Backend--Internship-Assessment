@@ -46,9 +46,24 @@ http://localhost:3003
    
  4. **Start the frontend server**:
     npm ng serve -o
-
+    
 ✅ The app will launch in your browser at:
 http://localhost:4200
+
+---
+### Login As Admin At First
+
+1.** username: admin , password: admin **
+
+2.** Add Some Categories **
+
+3.** Add New Admins **
+
+### Register New User
+
+** To Can add products and add them to wishlisy **
+
+** Then you can login as admin again to control the whole system **
 
  
 
