@@ -1,0 +1,96 @@
+<div class="main m-5">
+  <form [formGroup]="adminForm" (ngSubmit)="handleAddOrUpdateAdmin()" class="form bg-light p-4 shadow-sm">
+    <h2 class="text-center mb-3 text-black">{{ currentAdminId ? 'Update' : 'Add' }} Admin</h2>
+
+    <input
+      type="text"
+      class="form-control mb-2"
+      formControlName="username"
+      placeholder="Username"
+    />
+    <div class="text-danger small my-2" *ngIf="adminForm.get('username')?.touched && adminForm.get('username')?.invalid">
+      Username is required (min 3 characters).
+    </div>
+
+    <input
+      type="email"
+      class="form-control mb-2"
+      formControlName="email"
+      placeholder="Email"
+    />
+    <div class="text-danger small my-2" *ngIf="adminForm.get('email')?.touched && adminForm.get('email')?.invalid">
+      Valid email is required.
+    </div>
+
+    <input
+      type="password"
+      class="form-control mb-2"
+      formControlName="password"
+      placeholder="Password"
+    />
+    <div class="text-danger small my-2" *ngIf="adminForm.get('password')?.touched && adminForm.get('password')?.invalid">
+      Password is required (min 3 characters).
+    </div>
+
+    <button class="btn btn-primary w-100" [disabled]="adminForm.invalid || isLoading">
+      <i *ngIf="isLoading" class="fas fa-spinner fa-spin me-2"></i>
+      <i *ngIf="!isLoading" class="me-2"></i>
+      {{ currentAdminId ? 'Update' : 'Add' }} Admin
+    </button>
+  </form>
+
+  <!-- Error Alert -->
+  <div *ngIf="messageError" class="alert alert-danger mt-3">{{ messageError }}</div>
+
+  <!-- Admin List -->
+  <div class="card mt-4" *ngIf="paginatedAdmins.length > 0">
+    <h5 class="card-header">Admins List</h5>
+    <div class="card-body">
+      <ul class="list-group">
+        <li
+          *ngFor="let admin of paginatedAdmins"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong>{{ admin.username }}</strong><br />
+            <small class="text-muted">{{ admin.email }}</small>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-warning" (click)="editAdmin(admin)">
+              <i class="fas fa-edit me-1"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteAdmin(admin._id)">
+              <i class="fas fa-trash-alt me-1"></i> Delete
+            </button>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Pagination -->
+      <nav *ngIf="totalPages > 1" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            [class.active]="currentPage === i + 1"
+          >
+            <button class="page-link" (click)="changePage(i + 1)">
+              {{ i + 1 }}
+            </button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- No Admins -->
+  <div class="alert alert-warning mt-4" *ngIf="!isLoading && admins.length === 0">
+    No admins found.
+  </div>
+</div>

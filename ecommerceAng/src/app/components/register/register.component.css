@@ -1,0 +1,34 @@
+.Registration video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.Registration .video-container {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.register-box {
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+.btn {
+  background-color: black;
+  color: #ffffff;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0d6efd;
+  color: #ffffff;
+  cursor: pointer;
+}

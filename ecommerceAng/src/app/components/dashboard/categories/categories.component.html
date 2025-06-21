@@ -1,0 +1,79 @@
+<form
+  [formGroup]="CategoryForm"
+  (ngSubmit)="handleAddOrUpdateCategory()"
+  class="form bg-light p-4 shadow-sm m-5"
+>
+  <h2 class="text-center mb-3 text-black">
+    {{ currentCategoryId ? 'Update' : 'Add' }} Category
+  </h2>
+
+  <input
+    type="text"
+    class="form-control mb-2"
+    formControlName="name"
+    placeholder="Category Name"
+  />
+  <div
+    class="text-danger small my-2"
+    *ngIf="CategoryForm.get('name')?.touched && CategoryForm.get('name')?.invalid"
+  >
+    Name is required and must be at least 3 characters.
+  </div>
+
+  <select class="form-select mb-2" formControlName="parent">
+    <option [ngValue]="null">No Parent (Root)</option>
+    <option *ngFor="let category of allCategories" [ngValue]="category._id">
+      {{ category.name }}
+    </option>
+  </select>
+
+  <button
+    class="btn btn-primary w-100"
+    type="submit"
+    [disabled]="CategoryForm.invalid || isLoading"
+  >
+    <i *ngIf="isLoading" class="fas fa-spinner fa-spin me-2"></i>
+    <i *ngIf="!isLoading" class="me-2"></i>
+    {{ currentCategoryId ? 'Update' : 'Add' }} Category
+  </button>
+</form>
+
+<!-- Error Alert -->
+<div class="alert alert-danger mt-3 mx-5" *ngIf="messageError">
+  {{ messageError }}
+</div>
+
+<!-- Category Tree -->
+<div class="card m-5" *ngIf="categories.length > 0">
+  <h5 class="card-header">Category Tree</h5>
+  <div class="card-body">
+    <ng-container
+      *ngTemplateOutlet="renderTree; context: { $implicit: categories }"
+    ></ng-container>
+  </div>
+</div>
+
+<!-- Recursive Tree Template -->
+<ng-template #renderTree let-items>
+  <ul class="list-group">
+    <li *ngFor="let cat of items" class="list-group-item">
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-bold">{{ cat.name }}</span>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-warning"(click)="editCategory(cat)">
+            <i class="fas fa-edit me-1"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-danger"(click)="deleteCategory(cat._id)">
+          <i class="fas fa-trash-alt me-1"></i> Delete</button>
+        </div>
+      </div>
+
+      <!-- Children Tree -->
+      <ng-container *ngIf="childrenByParent[cat._id]?.length">
+        <ng-container
+          *ngTemplateOutlet="renderTree; context: { $implicit: childrenByParent[cat._id] }"
+        ></ng-container>
+      </ng-container>
+    </li>
+  </ul>
+</ng-template>

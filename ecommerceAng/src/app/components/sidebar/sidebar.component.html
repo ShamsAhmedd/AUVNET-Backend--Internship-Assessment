@@ -1,0 +1,45 @@
+<div
+  class="sidebar d-flex flex-column flex-shrink-0 position-fixed vh-100 bg-light shadow-sm transition-all"
+  [class.collapsed]="isCollapsed">
+
+  <button class="toggle-btn btn btn-outline-secondary m-2" (click)="toggleSidebarState()">
+    {{ isCollapsed ? '→' : '←' }}
+  </button>
+
+  <div class="px-3 pb-2" [class.d-none]="isCollapsed">
+    <h5 class="fw-bold mb-4 sidebar-link" (click)="showAllProducts()">Categories</h5>
+  </div>
+
+  <ul class="nav flex-column ps-1 overflow-auto" [class.d-none]="isCollapsed">
+    <ng-container *ngTemplateOutlet="renderCategory; context: { $implicit: categories }"></ng-container>
+  </ul>
+
+  <ng-template #renderCategory let-cats>
+    <li *ngFor="let cat of cats">
+      <div
+        class="sidebar-link d-flex justify-content-between align-items-center px-3 py-2 rounded mb-1"
+        [ngClass]="{
+          'bg-primary text-white': selectedCategoryId === cat._id,
+          'bg-white text-dark': selectedCategoryId !== cat._id
+        }"
+        (click)="onCategoryClick(cat)">
+        {{ cat.name }}
+        <span *ngIf="cat.children?.length">{{ expanded.has(cat._id) ? '-' : '+' }}</span>
+      </div>
+
+      <div *ngIf="expanded.has(cat._id) && (!cat.children?.length && cat.productsCount === 0)" class="ps-4 text-muted small">
+        No products in this category
+      </div>
+
+      <ul *ngIf="expanded.has(cat._id) && cat.children?.length" class="ps-3">
+        <ng-container *ngTemplateOutlet="renderCategory; context: { $implicit: cat.children }"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+
+    <div class="hide-when-collapsed px-3 mb-3">
+    <button class="btn btn-sm reset-filter-btn w-100" (click)="resetFilter()">
+      ⟳ Reset Filter
+    </button>
+  </div>
+</div>

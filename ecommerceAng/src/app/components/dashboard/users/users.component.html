@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <h2 class="fw-bold mb-4 text-dark">Admin User List</h2>
+
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status" aria-label="Loading users..."></div>
+  </div>
+
+  <!-- No Users Message -->
+  <div *ngIf="!isLoading && users.length === 0" class="alert alert-warning">
+    <i class="fa-regular fa-user me-2"></i> No users found.
+  </div>
+
+  <!-- User List -->
+  <div *ngIf="!isLoading && paginatedUsers.length > 0" class="list-group">
+    <div
+      *ngFor="let user of paginatedUsers"
+      class="list-group-item d-flex justify-content-between align-items-start flex-column flex-md-row gap-2"
+    >
+      <div class="me-md-3">
+        <h5 class="mb-1 text-dark">{{ user.username }}</h5>
+        <p class="mb-1 text-muted">{{ user.email }}</p>
+
+        <span class="badge" [ngClass]="{
+          'bg-secondary': user.type !== 'admin'
+        }">
+          {{ user.type }}
+        </span>
+
+        <small class="text-muted d-block mt-1">
+          Joined: {{ user.createdAt | date: 'short' }}
+        </small>
+      </div>
+
+      <button
+        class="btn btn-sm btn-outline-danger align-self-start align-self-md-center"
+        (click)="deleteUser(user._id)"
+        aria-label="Delete user"
+      >
+        <i class="fa-solid fa-trash me-1"></i> Delete
+      </button>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav *ngIf="!isLoading && totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+          Previous
+        </button>
+      </li>
+
+      <li
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="page-item"
+        [class.active]="currentPage === i + 1"
+      >
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+          Next
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

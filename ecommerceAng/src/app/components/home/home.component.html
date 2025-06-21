@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <div class="mb-3">
+    <h3 class="fw-bold text-dark">
+      <ng-container *ngIf="hasCategoryFilter">
+        <ng-container *ngIf="Products.length > 0; else noProducts">
+          <span class="text-primary">🗂 Products in</span> "{{ selectedCategoryName }}"
+        </ng-container>
+        <ng-template #noProducts>
+          <span class="text-danger">🚫 No products in</span> "{{ selectedCategoryName }}"
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="!hasCategoryFilter">
+        🛒 <span class="text-dark">All Products</span>
+      </ng-container>
+    </h3>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="row">
+    <div *ngFor="let product of paginatedProducts" class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text text-muted mb-2">{{ product.description || 'No description' }}</p>
+          <span class="badge bg-primary mb-3">{{ product.category?.name || 'Uncategorized' }}</span>
+          <p class="card-text fw-bold mt-auto">$ {{ product.price.toFixed(2) }}</p>
+          <button type="button" class="btn btn-outline-danger mt-2 align-self-start" (click)="addToWishList(product._id)">
+            <i class="fa-regular fa-heart"></i> Add to Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav *ngIf="!isLoading && totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+      </li>
+
+      <li *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="page-item"
+          [class.active]="currentPage === i + 1">
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+</div>

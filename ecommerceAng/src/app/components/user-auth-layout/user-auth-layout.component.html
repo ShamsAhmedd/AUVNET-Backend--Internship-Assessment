@@ -1,0 +1,12 @@
+<app-user-navbar></app-user-navbar>
+
+<div class="d-flex">
+  <app-sidebar (toggleSidebar)="handleSidebarToggle($event)"></app-sidebar>
+
+  <div class="content flex-grow-1"
+       [ngStyle]="{ 'margin-left': sidebarOpen ? '250px' : '0px' }">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<app-footer></app-footer>

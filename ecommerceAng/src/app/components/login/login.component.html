@@ -1,0 +1,67 @@
+<div class="login-page position-relative vh-100 overflow-hidden">
+  <div class="video-container position-absolute top-0 start-0 w-100 h-100 z-0">
+    <video
+      class="w-100 h-100 object-fit-cover"
+      src="6754826-uhd_3840_2160_25fps.mp4"
+      [muted]="true" [autoplay]="true" [loop]="true"
+      Your browser does not support the video tag.>
+    </video>
+    <div class="overlay position-absolute top-0 start-0 w-100 h-100 bg-dark" style="opacity: 0.5;"></div>
+  </div>
+
+  <div class="position-relative z-1 d-flex align-items-center justify-content-center h-100">
+    <div class="login-box shadow p-4 w-100" style="max-width: 600px;">
+      <form [formGroup]="loginForm" (ngSubmit)="handleForm()">
+        <h3 class="text-center mb-4 text-primary">Login</h3>
+
+        <div class="mb-3">
+          <input
+            #inputUserName
+            formControlName="username"
+            placeholder="Username"
+            type="text"
+            class="form-control" />
+          <div
+            class="form-text text-danger"
+            *ngIf="loginForm.get('username')?.errors && (loginForm.get('username')?.touched || inputUserName.value.length > 0)">
+            <small *ngIf="loginForm.get('username')?.getError('required')">Username is required.</small>
+            <small *ngIf="loginForm.get('username')?.getError('minlength')">At least 3 characters.</small>
+            <small *ngIf="loginForm.get('username')?.getError('maxlength')">Max 20 characters.</small>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <input
+            #inputPassword
+            formControlName="password"
+            placeholder="Password"
+            type="password"
+            class="form-control" />
+          <div
+            class="form-text text-danger"
+            *ngIf="loginForm.get('password')?.errors && (loginForm.get('password')?.touched || inputPassword.value.length > 0)">
+            <small *ngIf="loginForm.get('password')?.getError('required')">Password is required.</small>
+            <small *ngIf="loginForm.get('password')?.getError('minlength')">At least 3 characters.</small>
+            <small *ngIf="loginForm.get('password')?.getError('maxlength')">Max 20 characters.</small>
+          </div>
+        </div>
+
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading || loginForm.invalid">
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin me-2"></i>
+            Login
+          </button>
+        </div>
+
+        <!-- Error Message -->
+        <p *ngIf="messageError" class="text-danger text-center">{{ messageError }}</p>
+
+        <p class="text-center">
+          <a routerLink="/register" class="text-decoration-none">Don't have an account?
+            <strong>Register Now</strong>
+          </a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

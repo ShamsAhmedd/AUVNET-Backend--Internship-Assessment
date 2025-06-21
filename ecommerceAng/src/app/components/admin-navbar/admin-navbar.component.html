@@ -1,0 +1,71 @@
+<div class="sticky-top">
+  <div class="top-navbar bg-light shadow-sm py-2">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-md-2 d-none d-md-block">
+          <h5 class="brand-name mb-0">ByteBox</h5>
+        </div>
+
+        <div class="col-md-4 my-auto text-end">
+          <ul class="nav justify-content-end align-items-center mb-0">
+            <li class="nav-item cursor-pointer">
+              <a class="nav-link text-black" (click)="logOut()">
+                <i class="fa-solid fa-right-from-bracket "></i> LogOut
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="main-nav bg-black">
+  <div class="container-fluid">
+    <ul class="nav justify-content-center py-2">
+
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          routerLink="/admin/categories"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Categories
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          routerLink="/admin/products"
+          routerLinkActive="active"
+        >
+          Products
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          routerLink="/admin/users"
+          routerLinkActive="active"
+        >
+          Users
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          routerLink="/admin/admins"
+          routerLinkActive="active"
+        >
+          Admins
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+</div>
+
