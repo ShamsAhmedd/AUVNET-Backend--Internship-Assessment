@@ -1,6 +1,6 @@
 # AUVNET Backend  Internship Assessment
  
- This project is a full-stack e-commerce application developed for the AUVNET Backend Internship Assessment. It includes a Node.js + Express backend and an Angular frontend.
+ This project is a full-stack e-commerce application developed for the AUVNET Backend Internship Assessment. It includes a Node.js + Express.JS + MongoDB backend and an Angular frontend.
 
 ---
 
