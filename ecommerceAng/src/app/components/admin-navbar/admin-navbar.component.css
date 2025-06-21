@@ -10,6 +10,7 @@
   background-color: #111 !important;
   color: #f8f9fa;
   text-decoration: underline;
+  cursor:pointer;
 }
 
 .nav-link.active {
